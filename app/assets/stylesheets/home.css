@@ -1,18 +1,22 @@
 body {
-    background-color: #E7EBF2;
+    background-color: #EEE;
     font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
     padding: 0px;
     margin: 0px;
 }
 
+#songs{
+    width: 100%;
+}
+
 .song-row{
     padding: 10px;
-    height: 50px;
+    height: 60px;
     border-top: 1px #DDD solid;
 }
 
 .grey-row {
-    background-color: #EEE;
+    background-color: #E7EBF2;
 }
 
 .white-row {
@@ -21,19 +25,35 @@ body {
 
 .rank {
     margin-left: 20px;
-    float: left;
     line-height: 50px;
+    width: 10%;
 }
 
 .votes {
-    float: left;
+    width: 10%;
 }
 
 .vote-buttons{
-    float: left;
+    width: 10%;
+}
+
+.title a{
+    font-weight: bold;
+    color: #3B5998;
+    font-size: 13px;
+    width: 30%;
 }
 
 .song-details{
-    float: left;
-    line-height: 50px;
+    width: 70%;
+    text-align: left;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.artist, .album {
+    color: gray;
+    font-weight: normal;
+    font-size: 13px;
+    width: 20%;
 }
