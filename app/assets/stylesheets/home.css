@@ -1,4 +1,39 @@
-/*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
+body {
+    background-color: #E7EBF2;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    padding: 0px;
+    margin: 0px;
+}
+
+.song-row{
+    padding: 10px;
+    height: 50px;
+    border-top: 1px #DDD solid;
+}
+
+.grey-row {
+    background-color: #EEE;
+}
+
+.white-row {
+    background-color: #FFF;
+}
+
+.rank {
+    margin-left: 20px;
+    float: left;
+    line-height: 50px;
+}
+
+.votes {
+    float: left;
+}
+
+.vote-buttons{
+    float: left;
+}
+
+.song-details{
+    float: left;
+    line-height: 50px;
+}
