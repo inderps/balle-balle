@@ -1,9 +1,7 @@
 BalleBalle::Application.routes.draw do
-  get "home/index"
-
   post "/" => "home#index"
   get "/" => "home#index"
-
+  resources :songs
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
