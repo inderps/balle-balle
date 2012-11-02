@@ -34,21 +34,41 @@ var BalleBalle = {
                         toggle = false;
                     }
                 });
-//                bind_events();
+                bind_events();
             }
         });
+    },
+    vote: function(vote, song_id) {
+        $.ajax({
+            url: "votes",
+            type: "post",
+            data: { "vote" : vote, "song_id" : song_id }
+        });
+        if (vote == 1){
+            up_votes = $("tr[data-id='" + song_id +"'] .votes .up-vote");
+            updated_value = (parseInt(up_votes.attr("up-votes")) + 1).toString();
+            up_votes.html(updated_value);
+            up_votes.attr("up-votes", updated_value);
+        }
+        else{
+            down_votes = $("tr[data-id='" + song_id +"'] .votes .down-vote");
+            updated_value = (parseInt(down_votes.attr("down-votes")) - 1).toString();
+            down_votes.html(updated_value);
+            down_votes.attr("down-votes", updated_value);
+        }
     }
-//
-//    vote: function(url, vote, movie_id) {
-//        $.ajax({
-//            url: url,
-//            type: "post",
-//            data: { "vote" : vote, "movie_id" : movie_id },
-//            success: function(response) {
-//            }
-//        });
-//    },
-//    vote_current_movie: function(vote, movie_id) {
-//        this.vote("current_movies/vote", vote, movie_id);
-//    }
 }
+
+function bind_events() {
+    $("#songs").delegate(".up-button","click", function(e){
+        song_id = $(e.currentTarget).parents("tr:first").attr("data-id");
+        BalleBalle.vote(1, song_id);
+    });
+    $("#songs").delegate(".down-button","click", function(e){
+        song_id = $(e.currentTarget).parents("tr:first").attr("data-id");
+        BalleBalle.vote(-1, song_id);
+    });
+}
+
+
+

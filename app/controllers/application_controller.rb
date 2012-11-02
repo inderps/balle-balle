@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_filter :authorize
 
   def authorize
-    return if session[:user_id]
+    return if session[:user]
     render "home/authorize" and return if redirect?
   end
 
@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     signed_request = decode_data(params[:signed_request])
     return true if signed_request["user_id"].nil?
     session[:facebook_id] = signed_request["user_id"]
-    session[:user_id] = User.find_or_create_by_facebook_id(signed_request["user_id"]).id
+    session[:user] = User.find_or_create_by_facebook_id(signed_request["user_id"])
     session[:oauth_token] = signed_request["oauth_token"]
     return false
   end
