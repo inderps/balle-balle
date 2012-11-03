@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-tmpl
+//= require jquery.tinysort.min
 
 var BalleBalle = {
     load_songs: function() {
@@ -92,7 +93,9 @@ function refresh_list(songs) {
         up_votes.html(song.up_votes);
         down_votes.html(song.down_votes);
         rank.html(index + 1);
+        $("tr[data-id='" + song.id + "']").attr("rank", index + 1);
     });
+    sort_songs();
 }
 
 function refresh_votes() {
@@ -111,4 +114,8 @@ function disable_links(song_id) {
 
     down_button_selector = "tr[data-id='" + song_id +"'] .vote-buttons .down .down-button";
     $(down_button_selector).replaceWith($(down_button_selector).html());
+}
+
+function sort_songs() {
+    $('#songs tr').tsort({attr:'rank'});
 }
