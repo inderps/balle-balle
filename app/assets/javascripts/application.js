@@ -40,6 +40,7 @@ var BalleBalle = {
                 });
                 refresh_votes();
                 bind_events();
+                setInterval("refresh_votes()", 120000);
             }
         });
     },
