@@ -16,6 +16,11 @@
 
 var BalleBalle = {
     load_songs: function() {
+        function toggle_row_color(song, add, remove) {
+            $("tr[data-id=" + song.id + "]").addClass(add);
+            $("tr[data-id=" + song.id + "]").removeClass(remove);
+        }
+
         $.ajax({
             url: "songs",
             type: "get",
@@ -24,13 +29,11 @@ var BalleBalle = {
                 $.each(songs, function(index, song) {
                     $("#songTemplate").tmpl(song).appendTo("#songs");
                     if (toggle == false) {
-                        $("tr[data-id=" + song.id + "]").addClass("grey-row");
-                        $("tr[data-id=" + song.id + "]").removeClass("white-row");
+                        toggle_row_color(song, "grey-row", "white-row");
                         toggle = true;
                     }
                     else {
-                        $("tr[data-id=" + song.id + "]").addClass("white-row");
-                        $("tr[data-id=" + song.id + "]").removeClass("grey-row");
+                        toggle_row_color(song, "white-row", "grey-row");
                         toggle = false;
                     }
                 });
@@ -48,35 +51,46 @@ var BalleBalle = {
                 refresh_list(songs);
             }
         });
-        if (vote == 1){
-            up_votes = $("tr[data-id='" + song_id +"'] .votes .up-vote");
-            updated_value = (parseInt(up_votes.attr("up-votes")) + 1).toString();
-            up_votes.html(updated_value);
-            up_votes.attr("up-votes", updated_value);
-        }
-        else{
-            down_votes = $("tr[data-id='" + song_id +"'] .votes .down-vote");
-            updated_value = (parseInt(down_votes.attr("down-votes")) - 1).toString();
-            down_votes.html(updated_value);
-            down_votes.attr("down-votes", updated_value);
-        }
     }
 }
 
 function bind_events() {
     $("#songs").delegate(".up-button","click", function(e){
         song_id = $(e.currentTarget).parents("tr:first").attr("data-id");
+        disable_links(song_id);
         BalleBalle.vote(1, song_id);
+
+        up_votes = $("tr[data-id='" + song_id +"'] .votes .up-vote");
+        updated_value = (parseInt(up_votes.attr("up-votes")) + 1).toString();
+        up_votes.html(updated_value);
+        up_votes.attr("up-votes", updated_value);
     });
     $("#songs").delegate(".down-button","click", function(e){
         song_id = $(e.currentTarget).parents("tr:first").attr("data-id");
+        disable_links(song_id);
         BalleBalle.vote(-1, song_id);
+
+        down_votes = $("tr[data-id='" + song_id +"'] .votes .down-vote");
+        updated_value = (parseInt(down_votes.attr("down-votes")) - 1).toString();
+        down_votes.html(updated_value);
+        down_votes.attr("down-votes", updated_value);
     });
 }
 
 function refresh_list(songs) {
     $.each(songs, function (index, song) {
         rank = $("tr[data-id='" + song.id + "'] .rank");
+        up_votes = $("tr[data-id='" + song.id +"'] .votes .up-vote");
+        down_votes = $("tr[data-id='" + song.id +"'] .votes .down-vote");
+
+        if(song.vote != null) {
+            disable_links(song.id);
+        }
+
+        up_votes.attr("up-votes", song.up_votes);
+        down_votes.attr("down-votes", song.down_votes);
+        up_votes.html(song.up_votes);
+        down_votes.html(song.down_votes);
         rank.html(index + 1);
     });
 }
@@ -91,5 +105,10 @@ function refresh_votes() {
     });
 }
 
+function disable_links(song_id) {
+    up_button_selector = "tr[data-id='" + song_id +"'] .vote-buttons .up .up-button";
+    $(up_button_selector).replaceWith($(up_button_selector).html());
 
-
+    down_button_selector = "tr[data-id='" + song_id +"'] .vote-buttons .down .down-button";
+    $(down_button_selector).replaceWith($(down_button_selector).html());
+}
