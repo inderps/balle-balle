@@ -14,14 +14,20 @@ class VotesController < ApplicationController
           render :json => {:errors => ["failed to post on wall"]}, :status => :bad_request
         end
     end
-    render :nothing => true
+    songs = songs_with_votes
+    render :json => songs
   end
 
   def index
+    songs = songs_with_votes
+    render :json => songs
+  end
+
+  def songs_with_votes
     user = session[:user]
     songs = Song.select("songs.id, songs.up_votes, songs.down_votes, v.vote as vote").joins("left join votes v on songs.id = v.song_id and v.user_id = #{user.id}")
-    songs.sort_by! {|k, v| k.up_votes - k.down_votes}.reverse!
-    render :json => songs
+    songs.sort_by! { |k, v| k.up_votes - k.down_votes }.reverse!
+    songs
   end
 
   private

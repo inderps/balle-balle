@@ -34,6 +34,7 @@ var BalleBalle = {
                         toggle = false;
                     }
                 });
+                refresh_votes();
                 bind_events();
             }
         });
@@ -42,7 +43,10 @@ var BalleBalle = {
         $.ajax({
             url: "votes",
             type: "post",
-            data: { "vote" : vote, "song_id" : song_id }
+            data: { "vote" : vote, "song_id" : song_id },
+            success: function(songs) {
+                refresh_list(songs);
+            }
         });
         if (vote == 1){
             up_votes = $("tr[data-id='" + song_id +"'] .votes .up-vote");
@@ -67,6 +71,23 @@ function bind_events() {
     $("#songs").delegate(".down-button","click", function(e){
         song_id = $(e.currentTarget).parents("tr:first").attr("data-id");
         BalleBalle.vote(-1, song_id);
+    });
+}
+
+function refresh_list(songs) {
+    $.each(songs, function (index, song) {
+        rank = $("tr[data-id='" + song.id + "'] .rank");
+        rank.html(index + 1);
+    });
+}
+
+function refresh_votes() {
+    $.ajax({
+        url: "votes",
+        type: "get",
+        success: function(songs) {
+            refresh_list(songs);
+        }
     });
 }
 
