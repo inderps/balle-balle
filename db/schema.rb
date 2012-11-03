@@ -18,15 +18,16 @@ ActiveRecord::Schema.define(:version => 20121101214552) do
     t.string   "artist"
     t.string   "album"
     t.string   "link"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "up_votes",   :default => 0
+    t.integer  "down_votes", :default => 0
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "users", :force => true do |t|
     t.string   "facebook_id"
-    t.string   "language_preference"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "votes", :force => true do |t|

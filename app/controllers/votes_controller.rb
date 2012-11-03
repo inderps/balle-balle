@@ -2,10 +2,14 @@ class VotesController < ApplicationController
   def create
     song = Song.find(params[:song_id])
     user = session[:user]
+    vote = params[:vote].to_i
     if Vote.find_by_user_id_and_song_id(user.id, song.id).nil?
-        Vote.create(:vote => params[:vote].to_i, :user => user, :song => song)
+        Vote.create(:vote => vote, :user => user, :song => song)
+        song.up_votes = 1 if vote == 1
+        song.down_votes = 1 if vote == -1
+        song.save
         begin
-          make_wall_post(song)
+          #make_wall_post(song)
         rescue
           render :json => {:errors => ["failed to post on wall"]}, :status => :bad_request
         end
@@ -13,10 +17,17 @@ class VotesController < ApplicationController
     render :nothing => true
   end
 
+  def index
+    user = session[:user]
+    songs = Song.select("songs.id, songs.up_votes, songs.down_votes, v.vote as vote").joins("left join votes v on songs.id = v.song_id and v.user_id = #{user.id}")
+    songs.sort_by! {|k, v| k.up_votes - k.down_votes}.reverse!
+    render :json => songs
+  end
+
   private
   def make_wall_post(song)
     vote_status = params[:vote].to_i == 1 ? "up" : "down"
-    message = "Just now voted #{vote_status} song '#{song.title}'"
-    Feed.create(:_facebook_id => session[:facebook_id], :access_token => session[:oauth_token], :message => message, :link => "http://www.facebook.com/pages/Fresh-tomatoes/366788990075001")
+    message = "Just now voted #{vote_status} for song '#{song.title}'"
+    Feed.create(:_facebook_id => session[:facebook_id], :access_token => session[:oauth_token], :message => message, :link => song.link)
   end
 end

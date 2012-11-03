@@ -5,6 +5,8 @@ class CreateSongs < ActiveRecord::Migration
       t.string :artist
       t.string :album
       t.string :link
+      t.integer :up_votes, :default => 0
+      t.integer :down_votes, :default => 0
       t.timestamps
     end
   end
