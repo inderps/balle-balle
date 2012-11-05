@@ -17,26 +17,12 @@
 
 var BalleBalle = {
     load_songs: function() {
-        function toggle_row_color(song, add, remove) {
-            $("tr[data-id=" + song.id + "]").addClass(add);
-            $("tr[data-id=" + song.id + "]").removeClass(remove);
-        }
-
         $.ajax({
             url: "songs",
             type: "get",
             success: function(songs) {
-                var toggle = false;
                 $.each(songs, function(index, song) {
                     $("#songTemplate").tmpl(song).appendTo("#songs");
-                    if (toggle == false) {
-                        toggle_row_color(song, "grey-row", "white-row");
-                        toggle = true;
-                    }
-                    else {
-                        toggle_row_color(song, "white-row", "grey-row");
-                        toggle = false;
-                    }
                 });
                 refresh_votes();
                 bind_events();
@@ -59,7 +45,7 @@ var BalleBalle = {
 function bind_events() {
     $("#songs").delegate(".up-button","click", function(e){
         song_id = $(e.currentTarget).parents("tr:first").attr("data-id");
-        disable_links(song_id);
+        disable_links(song_id, "1");
         BalleBalle.vote(1, song_id);
 
         up_votes = $("tr[data-id='" + song_id +"'] .votes .up-vote");
@@ -69,7 +55,7 @@ function bind_events() {
     });
     $("#songs").delegate(".down-button","click", function(e){
         song_id = $(e.currentTarget).parents("tr:first").attr("data-id");
-        disable_links(song_id);
+        disable_links(song_id, "-1");
         BalleBalle.vote(-1, song_id);
 
         down_votes = $("tr[data-id='" + song_id +"'] .votes .down-vote");
@@ -86,7 +72,7 @@ function refresh_list(songs) {
         down_votes = $("tr[data-id='" + song.id +"'] .votes .down-vote");
 
         if(song.vote != null) {
-            disable_links(song.id);
+            disable_links(song.id, song.vote);
         }
 
         up_votes.attr("up-votes", song.up_votes);
@@ -109,12 +95,19 @@ function refresh_votes() {
     });
 }
 
-function disable_links(song_id) {
-    up_button_selector = "tr[data-id='" + song_id +"'] .vote-buttons .up .up-button";
+function disable_links(song_id, vote) {
+    up_button_selector = "tr[data-id='" + song_id +"'] .vote-buttons .up-button";
     $(up_button_selector).replaceWith($(up_button_selector).html());
 
-    down_button_selector = "tr[data-id='" + song_id +"'] .vote-buttons .down .down-button";
+    down_button_selector = "tr[data-id='" + song_id +"'] .vote-buttons .down-button";
     $(down_button_selector).replaceWith($(down_button_selector).html());
+
+    if(vote == "1") {
+        $("tr[data-id='" + song_id +"'] .vote-buttons .up-img").attr("src", "assets/up_green.png")
+    }
+    else{
+        $("tr[data-id='" + song_id +"'] .vote-buttons .down-img").attr("src", "assets/down_red.png")
+    }
 }
 
 function sort_songs() {

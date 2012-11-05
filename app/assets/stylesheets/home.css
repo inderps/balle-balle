@@ -1,5 +1,5 @@
 body {
-    background-color: #EEE;
+    background-color: #FFFFFF;
     font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
     padding: 0px;
     margin: 0px;
@@ -7,34 +7,44 @@ body {
 
 #songs{
     width: 100%;
+    border: none;
 }
 
 .song-row{
     padding: 10px;
     height: 60px;
-    border-top: 1px #DDD solid;
+    background-color: #F2F2F2;
 }
 
-.grey-row {
-    background-color: #E7EBF2;
-}
-
-.white-row {
-    background-color: #FFF;
+.song-row td{
+    border-top: 1px solid #C5C5C5;
+    text-align: center;
 }
 
 .rank {
-    margin-left: 20px;
     line-height: 50px;
     width: 10%;
+    color: #8897BD;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .votes {
-    width: 10%;
+    width: 2%;
+    color: #94A0C1;
+    font-weight: normal;
+    font-size: 14px;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
 }
 
 .vote-buttons{
-    width: 10%;
+    width: 8%;
+}
+
+.vote-buttons img{
+    width: 30px;
+    height: 32px;
 }
 
 .title a{
@@ -45,7 +55,7 @@ body {
 }
 
 .song-details{
-    width: 70%;
+    width: 80%;
     text-align: left;
     margin-left: 10px;
     vertical-align: middle;
