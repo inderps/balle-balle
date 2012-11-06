@@ -16,6 +16,11 @@ body {
     background-color: #F2F2F2;
 }
 
+.song-head{
+    background-color: #8897BD;
+    color: #FFFFFF;
+}
+
 .song-row td{
     border-top: 1px solid #C5C5C5;
     text-align: center;
@@ -47,11 +52,14 @@ body {
     height: 32px;
 }
 
+.title {
+    width: 40%;
+}
+
 .title a{
     font-weight: bold;
     color: #3B5998;
     font-size: 13px;
-    width: 30%;
 }
 
 .song-details{
