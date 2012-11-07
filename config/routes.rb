@@ -4,6 +4,7 @@ BalleBalle::Application.routes.draw do
   post "/" => "home#index"
   get "/" => "home#index"
   get "/test" => "home#test"
+  get "/users" => "home#users"
   resources :songs
   resources :votes
   # The priority is based upon order of creation:
