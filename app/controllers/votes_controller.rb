@@ -9,9 +9,9 @@ class VotesController < ApplicationController
         song.down_votes = 1 if vote == -1
         song.save
         begin
-          #make_wall_post(song)
+          make_wall_post(song)
         rescue
-          render :json => {:errors => ["failed to post on wall"]}, :status => :bad_request
+          render and return :json => {:errors => ["failed to post on wall"]}, :status => :bad_request
         end
     end
     songs = songs_with_votes
@@ -32,8 +32,9 @@ class VotesController < ApplicationController
 
   private
   def make_wall_post(song)
-    vote_status = params[:vote].to_i == 1 ? "up" : "down"
-    message = "Just now voted #{vote_status} for song '#{song.title}'"
-    Feed.create(:_facebook_id => session[:facebook_id], :access_token => session[:oauth_token], :message => message, :link => song.link)
+    if params[:vote].to_i == 1
+      message = "Just now voted for song '#{song.title}' via Balle-Balle"
+      Feed.create(:_facebook_id => session[:facebook_id], :access_token => session[:oauth_token], :message => message, :link => song.link, :actions => [{:name => "Balle Balle", :link => "http://apps.facebook.com/balle-balle"}].to_json)
+    end
   end
 end
