@@ -5,8 +5,8 @@ class VotesController < ApplicationController
     vote = params[:vote].to_i
     if Vote.find_by_user_id_and_song_id(user.id, song.id).nil?
         Vote.create(:vote => vote, :user => user, :song => song)
-        song.up_votes = 1 if vote == 1
-        song.down_votes = 1 if vote == -1
+        song.up_votes += 1 if vote == 1
+        song.down_votes += 1 if vote == -1
         song.save
         begin
           make_wall_post(song)
