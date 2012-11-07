@@ -13,8 +13,11 @@ class ApplicationController < ActionController::Base
     signed_request = decode_data(params[:signed_request])
     return true if signed_request["user_id"].nil?
     session[:facebook_id] = signed_request["user_id"]
-    session[:user] = User.find_or_create_by_facebook_id(signed_request["user_id"])
-    session[:oauth_token] = signed_request["oauth_token"]
+    user = User.find_or_create_by_facebook_id(signed_request["user_id"])
+    user.token = signed_request["oauth_token"]
+    user.save
+    session[:oauth_token] = user.token
+    session[:user] = user
     return false
   end
 
