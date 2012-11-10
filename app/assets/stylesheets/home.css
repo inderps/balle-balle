@@ -1,8 +1,19 @@
 body {
-    background-color: #FFFFFF;
+    background-color: #F4F4F4;
     font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
     padding: 0px;
     margin: 0px;
+}
+
+#header {
+    padding: 10px;
+    background-color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+    color: #FFFFFF;
+    line-height: 1.28;
 }
 
 #songs{
@@ -13,16 +24,19 @@ body {
 .song-row{
     padding: 10px;
     height: 60px;
-    background-color: #F2F2F2;
+    background-color: #FFFFFF;
 }
 
 .song-head{
-    background-color: #8897BD;
-    color: #FFFFFF;
+    border: 1px solid #C4CDE0;
+    -webkit-border-radius: 0 0 2px 2px;
+    background-color: #dbdbdb;
+    color: #000000;
 }
 
 .song-row td{
-    border-top: 1px solid #C5C5C5;
+    border-bottom: 1px solid #C4CDE0;
+    -webkit-border-radius: 0 0 2px 2px;
     text-align: center;
 }
 
