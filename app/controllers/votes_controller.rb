@@ -9,7 +9,7 @@ class VotesController < ApplicationController
         song.down_votes += 1 if vote == -1
         song.save
         begin
-          make_wall_post(song)
+          make_wall_post(song) if session[:wall_posted].nil?
         rescue
           render and return :json => {:errors => ["failed to post on wall"]}, :status => :bad_request
         end
@@ -35,6 +35,13 @@ class VotesController < ApplicationController
     if params[:vote].to_i == 1
       message = "Just now voted for song '#{song.title}' via Balle-Balle"
       Feed.create(:_facebook_id => session[:facebook_id], :access_token => session[:oauth_token], :message => message, :link => song.link, :actions => [{:name => "Balle Balle", :link => "http://apps.facebook.com/balle-balle"}].to_json)
+      market_app_post
+      session[:wall_posted] = true
     end
+  end
+
+  def market_app_post()
+    message = "Checkout Latest Punjabi Songs Ratings at Balle Balle"
+    Feed.create(:_facebook_id => session[:facebook_id], :access_token => session[:oauth_token], :message => message, :link => "http://apps.facebook.com/balle-balle/", :actions => [{:name => "Balle Balle", :link => "http://apps.facebook.com/balle-balle"}].to_json)
   end
 end
